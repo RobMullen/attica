@@ -29,6 +29,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QLatin1Char>
 #include <QRandomGenerator>
 
 namespace Attica {
@@ -49,7 +50,7 @@ PostFileData::PostFileData(const QUrl& url)
     :d(new PostFileDataPrivate)
 {
     d->url = url;
-    qsrand(QTime::currentTime().secsTo(QTime(0,0,0)));
+    QRandomGenerator::global()->generate();
     d->boundary = "----------" + randomString(42 + 13).toLatin1();
 }
 
@@ -70,7 +71,7 @@ QString PostFileData::randomString(int length)
       r+=48;
       if (r>57) r+=7;
       if (r>90) r+=6;
-      str[i++] =  char(r);
+      str[i++] = QLatin1Char(r);
    }
    return str;
 }
